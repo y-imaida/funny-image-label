@@ -79,3 +79,7 @@ gem 'aws-sdk'
 gem 'aws-sdk-rails'
 
 gem 'google-cloud-vision'
+
+group :development do
+  gem 'letter_opener_web'
+end

@@ -1,0 +1,21 @@
+ja:
+  activerecord:
+    models:
+      topic: "トピック"
+      user: "ユーザー"
+      comment: "コメント"
+    attributes:
+      topic:
+        content: "内容"
+        picture: "写真"
+      comment:
+        content: "コメント"
+      user:
+        title: "タイトル"
+        name: "名前"
+        email: "メールアドレス"
+        content: "内容"
+        current_password: "現在のパスワード"
+        password: "パスワード"
+        password_confirmation: "確認用パスワード"
+        remember_me: "ログインを記憶"
