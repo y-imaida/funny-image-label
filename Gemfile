@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
 # Use postgresql as the database for Active Record
-gem 'pg'
+gem 'pg', '~> 0.20.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -41,5 +41,41 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  gem 'pry-rails'
+  gem 'better_errors'
+
+  gem 'capistrano', '3.6.0'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
+  gem 'capistrano-rbenv'
+  gem 'capistrano3-unicorn'
 end
 
+gem 'twitter-bootstrap-rails'
+gem 'jquery-turbolinks'
+
+gem 'font-awesome-rails'
+
+gem 'devise'
+
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+
+gem 'carrierwave'
+gem 'rmagick'
+
+gem 'pusher'
+
+gem 'fog'
+
+gem 'dotenv-rails'
+gem 'unicorn'
+
+gem 'therubyracer', platforms: :ruby
+
+gem 'aws-sdk'
+gem 'aws-sdk-rails'
+
+gem 'google-cloud-vision'

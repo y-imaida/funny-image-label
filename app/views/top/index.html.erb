@@ -1,0 +1,20 @@
+<h1>Top#index</h1>
+<p>Find me in app/views/top/index.html.erb</p>
+
+<h3>Amazon Rekognition</h3>
+<% @label_resp.labels.each do |label| %>
+  <%= label.name %>
+  <%= label.confidence.to_i %>
+<% end %>
+<hr>
+<h3>Google Cloud Vision</h3>
+<h5>safe search</h5>
+<%= @safe_search.adult %><br>
+<%= @safe_search.spoof %><br>
+<%= @safe_search.medical %><br>
+<%= @safe_search.violence %><br>
+<h5>label detection</h5>
+<% @image.labels.each do |label| %>
+  <%= label.description %>
+  <%= label.score %>
+<% end %>

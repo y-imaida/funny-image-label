@@ -11,3 +11,13 @@
 /log/*
 !/log/.keep
 /tmp
+
+# dotenv-rails
+.env
+
+# GCP service account key file
+config/gungnir-001-viewer.json
+
+# image files for test
+*.jpg
+*.png
