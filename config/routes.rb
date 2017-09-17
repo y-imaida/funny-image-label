@@ -1,8 +1,18 @@
 Rails.application.routes.draw do
+
   devise_for :users, controllers: {
     registrations: "users/registrations",
     omniauth_callbacks: "users/omniauth_callbacks"
   }
+
+  resources :topics do
+    collection do
+      get :select_image
+      post :detect_labels
+    end
+  end
+
+  resources :imagelabels, only:[:new, :create]
 
   root 'top#index'
 

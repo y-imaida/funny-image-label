@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  topic_id: 
+  api: MyString
+  label: MyString
+  score: 1.5
+  selected: false
+
+two:
+  topic_id: 
+  api: MyString
+  label: MyString
+  score: 1.5
+  selected: false

@@ -11,10 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170903101344) do
+ActiveRecord::Schema.define(version: 20170909084327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "image_labels", force: :cascade do |t|
+    t.integer  "topic_id"
+    t.string   "api"
+    t.string   "label"
+    t.float    "score"
+    t.boolean  "selected",   default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "image_labels", ["topic_id"], name: "index_image_labels_on_topic_id", using: :btree
+
+  create_table "topics", force: :cascade do |t|
+    t.string   "image"
+    t.string   "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -45,4 +65,5 @@ ActiveRecord::Schema.define(version: 20170903101344) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
 
+  add_foreign_key "image_labels", "topics"
 end

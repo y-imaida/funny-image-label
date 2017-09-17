@@ -1,0 +1,88 @@
+<div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <% if notice.present? %>
+          <div class="flash-msg alert alert-info" role="alert">
+            <%= notice %>
+          </div>
+        <% end %>
+        <% if alert.present? %>
+          <div class="flash-msg alert alert-warning" role="alert">
+            <%= alert %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+        <div class="detect-labels panel panel-default">
+          <div class="panel-body">
+            <%= link_to select_image_topics_path, class: "btn btn-block btn-primary" do %>
+              <%= fa_icon "picture-o fw", text: "画像を選択する" %>
+            <% end %>
+          </div>
+        </div>
+
+        <% unless @topics.present? %>
+          <div class="panel panel-default">
+            <div class="panel-body">
+              現在投稿はありません。
+            </div>
+          </div>
+        <% end %>
+
+        <% @topics.each do |topic| %>
+          <div class="topic-panel panel panel-default">
+            <div class="panel-body">
+              <div class="profile-image"><%= profile_img(@user) %></div>
+              <div class="username">
+                <strong><%= @user.name %></strong><br>
+                <%= topic.updated_at.strftime("%Y/%m/%d %H:%M:%S") %>
+              </div>
+              <div class="edit-topic-links pull-right">
+                <%= link_to edit_topic_path(topic.id) do %>
+                  <% fa_icon("pencil-square-o fw") %>
+                <% end %>
+                <%= link_to topic_path(topic.id), method: :delete, data: { confirm: 'トピックを削除してもいいですか？' } do %>
+                  <% fa_icon("trash-o fw") %>
+                <% end %>
+              </div>
+              <div>
+                <%= simple_format(topic.content) %>
+              </div>
+              <div>
+                <%= image_tag(topic.picture, :width => "100%")  if topic.picture? %>
+              </div>
+              <hr>
+              <div class="comments-link">
+                <%= link_to topic_path(topic) do %>
+                  <% fa_icon("comment-o fw", text: "コメントする") %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <% if topic.comments.length > 0 %>
+            <div class="comments-panel panel panel-default">
+              <div class="panel-body">
+                <% topic.comments.order(created_at: :asc).each do |comment| %>
+                  <% unless comment.id.nil? %>
+                    <div class="profile-image">
+                      <%= profile_img(comment.user) %>
+                    </div>
+                    <div class="comment">
+                      <strong><%= comment.user.name %></strong><br>
+                      <%= simple_format(comment.content) %>
+                      <span class="updated-time"><%= comment.updated_at.strftime("%Y/%m/%d %H:%M:%S") %></span>
+                    </div>
+                    <br>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

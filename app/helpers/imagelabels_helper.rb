@@ -1,0 +1,2 @@
+module ImagelabelsHelper
+end

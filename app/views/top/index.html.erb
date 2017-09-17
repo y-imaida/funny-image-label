@@ -1,20 +1,79 @@
-<h1>Top#index</h1>
-<p>Find me in app/views/top/index.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <% if notice.present? %>
+        <div class="flash-msg">
+          <div class="alert alert-info" role="alert">
+            <%= notice %>
+          </div>
+        </div>
+      <% end %>
 
-<h3>Amazon Rekognition</h3>
-<% @label_resp.labels.each do |label| %>
-  <%= label.name %>
-  <%= label.confidence.to_i %>
-<% end %>
-<hr>
-<h3>Google Cloud Vision</h3>
-<h5>safe search</h5>
-<%= @safe_search.adult %><br>
-<%= @safe_search.spoof %><br>
-<%= @safe_search.medical %><br>
-<%= @safe_search.violence %><br>
-<h5>label detection</h5>
-<% @image.labels.each do |label| %>
-  <%= label.description %>
-  <%= label.score %>
-<% end %>
+      <% if alert.present? %>
+        <div class="flash-msg">
+          <div class="alert alert-warning" role="alert">
+            <%= alert %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="about col-md-5 col-md-offset-1 hidden-sm hidden-xs">
+      <p>FunnyImageLabelは、Amazon Web ServicesやGoogle Cloud Platformが提供している画像解析APIを利用して画像のシーン検出（ラベル検出）を行うことができます。</p>
+      <img src="<%= asset_path 'amazon-aws-logo.jpg' %>">
+      <img src="<%= asset_path 'gcp_image.jpg' %>">
+    </div>
+    <div class="col-md-5">
+      <div class="panel panel-default registration-form">
+        <div class="panel-body">
+          <h1>ユーザー登録</h1>
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+            <%= devise_error_messages! %>
+            <div class="field">
+              <%= f.text_field :name, class: "form-control", placeholder: "名前" %>
+            </div>
+            <div class="field">
+              <%= f.email_field :email, class: "form-control", placeholder: "メールアドレス" %>
+            </div>
+            <div class="field">
+              <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "パスワード" %>
+            </div>
+            <div class="actions">
+              <%= f.submit "ユーザーを作成する", class: "btn btn-block btn-success" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="panel panel-default login-form">
+        <div class="panel-body">
+          <h1>ログイン</h1>
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+            <div class="field">
+              <%= f.email_field :email, class: "form-control", placeholder: "メールアドレス" %>
+            </div>
+            <div class="field">
+              <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "パスワード" %>
+            </div>
+            <div class="actions">
+              <%= f.submit "ログイン", class: "btn btn-block btn-primary" %>
+            </div>
+          <% end %>
+          <div class="text-center">
+            または
+          </div>
+          <div class="actions">
+            <%= link_to user_facebook_omniauth_authorize_path, class: "btn btn-block btn-primary" do %>
+              <%= fa_icon "facebook-official fw", text: "Facebookでログイン" %>
+            <% end %>
+          </div>
+          <div class="actions">
+            <%= link_to user_twitter_omniauth_authorize_path, class: "btn btn-block btn-primary" do %>
+              <%= fa_icon "twitter fw", text: "Twitterでログイン" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

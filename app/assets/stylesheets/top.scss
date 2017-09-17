@@ -1,3 +1,67 @@
 // Place all the styles related to the Top controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+body {
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+}
+
+header {
+  background-color: #24292e;
+  .header-logo {
+    color: #fff;
+    font-weight: bold;
+    font-size: 40px;
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+    a:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+  .header-icon {
+    color: #fff;
+    font-size: 32px;
+    line-height: 56px;
+    cursor: pointer;
+    #unread_count {
+      font-size: 24px;
+      margin-left: 5px;
+    }
+  }
+  .header-icon:hover {
+    opacity: 0.7;
+  }
+}
+
+.about {
+  p {
+    margin: 20px auto;
+    font-size: 18px;
+  }
+  img {
+    margin: 20px auto;
+    width: 100%;
+  }
+}
+
+.registration-form, .login-form {
+  margin: 20px 0 20px;
+  h1 {
+    font-weight: bold;
+  }
+  .field {
+    margin: 10px auto;
+  }
+  .actions {
+    margin: 10px auto;
+  }
+}
+
+.flash-msg {
+  text-align: center;
+  margin: 20px auto;
+}
