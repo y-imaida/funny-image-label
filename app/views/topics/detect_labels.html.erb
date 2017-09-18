@@ -1,19 +1,17 @@
 <h1>Detect Image Labels</h1>
-<p><%= @topic.image %></p>
 <p><%= @api_name %></p>
-<p><%= @detect_labels_resp %></p>
 <p><%= @safe_search %></p>
 
 <%= form_for(@topic) do |f| %>
   <%= image_tag(@topic.image) %><br>
-  <%= f.hidden_field :image %>
+  <%= hidden_field_tag "reserved_image_id", @reserved_image.id %>
 
   <%= @api_name %><br>
   <%= hidden_field_tag "api_name", @api_name %>
 
-  <% @detect_labels_resp.each do |resp| %>
-    <% post_value=[[resp.description, resp.score.to_s]] %>
-    <label><%= check_box_tag "labels[]", post_value %><%= resp.description %>:<%= resp.score %></label><br>
+  <% @detect_labels_resp.each do |label| %>
+    <%= check_box_tag "selected_labels[]", label.description %><%= label.description %>:<%= label.score %><br>
+    <%= hidden_field_tag "detected_labels[]", label.description + "," +  label.score.to_s %>
   <% end %>
 
   <%= f.text_area :content, rows: 3 %><br>

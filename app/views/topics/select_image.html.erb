@@ -1,21 +1,37 @@
 <div class="container">
-  <h1>画像選択</h1>
-  <%= form_for(@topic, url: detect_labels_topics_path) do |f| %>
-    <div class="form-group row">
-      <%= f.label '画像', class: "col-md-2 col-for-m-label" %>
-      <%= f.file_field :image, class: "col-md-10" %>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <% if notice.present? %>
+        <div class="flash-msg alert alert-info" role="alert">
+          <%= notice %>
+        </div>
+      <% end %>
+      <% if alert.present? %>
+        <div class="flash-msg alert alert-warning" role="alert">
+          <%= alert %>
+        </div>
+      <% end %>
     </div>
-    <fieldset class="form-group">
-      <div class="row">
-        <%= f.label '画像解析API' %>
-        <div class="form-check">
-          <label class="form-check-label"><%= f.radio_button_tag :api_name, 'Rekognition' %>Rekognition</label>
-        </div>
-        <div class="form-check">
-          <label class="form-check-label"><%= f.radio_button_tag :api_name, 'Cloud Vision API' %>Cloud Vision API</label>
-        </div>
+  </div>
+  <div class="row">
+    <h1>画像選択</h1>
+    <%= form_for(@reserved_image, url: detect_labels_topics_path) do |f| %>
+      <div class="form-group row">
+        <%= f.label '画像', class: "col-md-2 col-for-m-label" %>
+        <%= f.file_field :image, class: "col-md-10" %>
       </div>
-      <%= f.submit "ラベル検出", class: "btn btn-block btn-primary" %>
-    </fieldset>
-  <% end %>
+      <fieldset class="form-group">
+        <div class="row">
+          <%= f.label '画像解析API' %>
+          <div class="form-check">
+            <label class="form-check-label"><%= f.radio_button_tag :api_name, 'Rekognition' %>Rekognition</label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label"><%= f.radio_button_tag :api_name, 'Cloud Vision API' %>Cloud Vision API</label>
+          </div>
+        </div>
+        <%= f.submit "ラベル検出", class: "btn btn-block btn-primary" %>
+      </fieldset>
+    <% end %>
+  </div>
 </div>
