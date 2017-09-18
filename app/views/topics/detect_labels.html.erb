@@ -9,9 +9,18 @@
   <%= @api_name %><br>
   <%= hidden_field_tag "api_name", @api_name %>
 
-  <% @detect_labels_resp.each do |label| %>
-    <%= check_box_tag "selected_labels[]", label.description %><%= label.description %>:<%= label.score %><br>
-    <%= hidden_field_tag "detected_labels[]", label.description + "," +  label.score.to_s %>
+  <% if @api_name == "Rekognition" %>
+    <% @detect_labels_resp.labels.each do |label| %>
+      <%= check_box_tag "selected_labels[]", label.name %><%= label.name %>:<%= label.confidence %><br>
+      <%= hidden_field_tag "detected_labels[]", label.name + "," + label.confidence.to_s %>
+    <% end %>
+  <% end %>
+
+  <% if @api_name == "Cloud Vision API" %>
+    <% @detect_labels_resp.each do |label| %>
+      <%= check_box_tag "selected_labels[]", label.description %><%= label.description %>:<%= label.score %><br>
+      <%= hidden_field_tag "detected_labels[]", label.description + "," +  label.score.to_s %>
+    <% end %>
   <% end %>
 
   <%= f.text_area :content, rows: 3 %><br>

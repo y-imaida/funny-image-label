@@ -35,9 +35,9 @@
         <% @topics.each do |topic| %>
           <div class="topic-panel panel panel-default">
             <div class="panel-body">
-              <div class="profile-image"><%= profile_img(@user) %></div>
+              <div class="profile-image"><%= profile_img(topic.user) %></div>
               <div class="username">
-                <strong><%= @user.name %></strong><br>
+                <strong><%= topic.user.name %></strong><br>
                 <%= topic.updated_at.strftime("%Y/%m/%d %H:%M:%S") %>
               </div>
               <div class="edit-topic-links pull-right">
@@ -52,7 +52,7 @@
                 <%= simple_format(topic.content) %>
               </div>
               <div>
-                <%= image_tag(topic.picture, :width => "100%")  if topic.picture? %>
+                <%= image_tag(topic.image, :width => "100%")  if topic.image? %>
               </div>
               <hr>
               <div class="comments-link">
@@ -62,6 +62,9 @@
               </div>
             </div>
           </div>
+<%
+=begin
+%>
           <% if topic.comments.length > 0 %>
             <div class="comments-panel panel panel-default">
               <div class="panel-body">
@@ -81,6 +84,9 @@
               </div>
             </div>
           <% end %>
+<%
+=end
+%>
         <% end %>
       </div>
     </div>

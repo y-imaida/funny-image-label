@@ -9,28 +9,50 @@ class TopicsController < ApplicationController
   end
 
   def detect_labels
+    # トピック登録のタイミングで画像を保存できるように別モデルへ一時保管する
     @reserved_image = ReservedImage.new(reserved_image_params)
     @reserved_image.save
 
-    # @topic = Topic.new(topic_params)
     @topic = Topic.new
     @topic.image = @reserved_image.image
     @api_name = params[:api_name]
 
-    if @api_name == "Rekognition"
-      client = Aws::Rekognition::Client.new(
-        region: 'us-west-2'
-      )
-      @detect_labels_resp = client.detect_labels(
-        image: {
-          bytes: File.read(@topic.image.file.file)
-        },
-      )
-    elsif @api_name == "Cloud Vision API"
-      client = CloudVision.new("gungnir-001")
-      vision_image = client.image(@topic.image.file.file)
-      @detect_labels_resp = vision_image.labels
-      @safe_search = client.safe_search(@topic.image.file.file)
+    begin
+      if @api_name == "Rekognition"
+        client = Aws::Rekognition::Client.new(
+          region: 'us-west-2'
+        )
+        @detect_labels_resp = client.detect_labels(
+          image: {
+            bytes: File.read(@topic.image.file.file)
+          },
+        )
+        @detect_moderation_labels_resp = client.detect_moderation_labels(
+          image: {
+            bytes: File.read(@topic.image.file.file)
+          }
+        )
+
+        if @detect_moderation_labels_resp.moderation_labels.present?
+          redirect_to select_image_topics_path, alert: "選択した画像のラベル検出は実行できません。（セーフサーチ機能）"
+        end
+      end
+
+      if @api_name == "Cloud Vision API"
+        client = CloudVision.new("gungnir-001")
+        vision_image = client.image(@topic.image.file.file)
+        @detect_labels_resp = vision_image.labels
+        @safe_search = client.safe_search(@topic.image.file.file)
+
+        if @safe_search.adult? ||
+           @safe_search.spoof? ||
+           @safe_search.medical? ||
+           @safe_search.violence?
+          redirect_to select_image_topics_path, alert: "選択した画像のラベル検出は実行できません。（セーフサーチ機能）"
+        end
+      end
+    rescue Exception => e
+      redirect_to select_image_topics_path, alert: "画像解析APIの実行でエラーが発生しました。" + "\n" + e.message
     end
   end
 
@@ -43,7 +65,7 @@ class TopicsController < ApplicationController
     detected_labels = params[:detected_labels]
     selected_labels = params[:selected_labels]
 
-    if @topic.save
+    if selected_labels.present? && @topic.save
       detected_labels.each do |dls|
         dls.split(",").each_slice(2) do |dl|
           @image_label = @topic.image_labels.build
@@ -62,7 +84,7 @@ class TopicsController < ApplicationController
     else
       @reserved_image.destroy
 
-      redirect_to select_image_topics_path
+      redirect_to select_image_topics_path, alert: "トピックの投稿でエラーが発生しました。"
     end
   end
 

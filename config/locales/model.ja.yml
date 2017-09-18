@@ -7,7 +7,7 @@ ja:
     attributes:
       topic:
         content: "内容"
-        picture: "写真"
+        image: "写真"
       comment:
         content: "コメント"
       user:

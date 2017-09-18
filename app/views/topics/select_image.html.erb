@@ -8,7 +8,7 @@
       <% end %>
       <% if alert.present? %>
         <div class="flash-msg alert alert-warning" role="alert">
-          <%= alert %>
+          <%= simple_format(alert) %>
         </div>
       <% end %>
     </div>
