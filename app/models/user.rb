@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   validates :name, presence: true
 
   has_many :topics, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   mount_uploader :avatar, AvatarUploader
 

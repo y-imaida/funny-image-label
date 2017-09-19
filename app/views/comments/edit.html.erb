@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="row">
+    <div class="text-center">
+      <h2>コメントの編集</h2>
+    </div>
+    <div class="col-md-6 col-md-offset-3">
+      <% if @comment.errors.any? %>
+        <div class="flash-msg alert alert-warning" role="alert">
+          <h2><%= @comment.errors.count %>件のエラーがあります。</h2>
+          <ul>
+            <% @comment.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="new-and-edit-form col-md-6 col-md-offset-3">
+      <div class="topic-panel panel panel-default">
+        <div class="panel-body">
+          <div class="profile-image"><%= profile_img(@topic.user) %></div>
+          <div class="username">
+            <strong><%= @topic.user.name %></strong><br>
+            <%= @topic.updated_at.strftime("%Y/%m/%d %H:%M:%S") %>
+          </div>
+          <div>
+            <%= simple_format(@topic.content) %>
+          </div>
+          <div>
+            <%= image_tag(@topic.image, :width => "100%")  if @topic.image? %>
+          </div>
+        </div>
+      </div>
+      <div class="comments-panel panel panel-default">
+        <div class="panel-body">
+          <%= form_for([@topic, @comment]) do |f| %>
+            <%= f.hidden_field :topic_id %>
+            <%= f.text_area :content, placeholder: "コメントする", rows: "3", class: "form-control" %>
+            <br>
+            <%= f.submit class: "btn btn-primary btn-block" %>
+            <br>
+            <%= link_to topic_path(@topic), class: "btn btn-block btn-default" do %>
+              <%= fa_icon "arrow-circle-o-left fw", text: "戻る" %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

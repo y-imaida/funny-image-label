@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   devise_for :users, controllers: {
     registrations: "users/registrations",
     omniauth_callbacks: "users/omniauth_callbacks"
@@ -10,6 +9,8 @@ Rails.application.routes.draw do
       get :select_image
       post :detect_labels
     end
+
+    resources :comments
   end
 
   resources :imagelabels, only:[:new, :create]

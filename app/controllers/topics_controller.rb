@@ -1,5 +1,6 @@
 class TopicsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_topic, only: [:show, :edit, :update, :destroy]
 
   def index
     @topics = Topic.all
@@ -58,6 +59,11 @@ class TopicsController < ApplicationController
     end
   end
 
+  def show
+    @comment = @topic.comments.build
+    @comments = @topic.comments
+  end
+
   def create
     @reserved_image = ReservedImage.find(params[:reserved_image_id])
     @topic = Topic.new(topic_params)
@@ -97,5 +103,9 @@ class TopicsController < ApplicationController
 
     def topic_params
       params.require(:topic).permit(:image, :content)
+    end
+
+    def set_topic
+      @topic = Topic.find(params[:id])
     end
 end
