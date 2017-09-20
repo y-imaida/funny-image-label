@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170919115704) do
+ActiveRecord::Schema.define(version: 20170920115118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,17 @@ ActiveRecord::Schema.define(version: 20170919115704) do
   end
 
   add_index "image_labels", ["topic_id"], name: "index_image_labels_on_topic_id", using: :btree
+
+  create_table "notifications", force: :cascade do |t|
+    t.boolean  "read",       default: false
+    t.integer  "user_id"
+    t.integer  "comment_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "notifications", ["comment_id"], name: "index_notifications_on_comment_id", using: :btree
+  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
 
   create_table "reserved_images", force: :cascade do |t|
     t.string   "image"
@@ -85,4 +96,6 @@ ActiveRecord::Schema.define(version: 20170919115704) do
   add_foreign_key "comments", "topics"
   add_foreign_key "comments", "users"
   add_foreign_key "image_labels", "topics"
+  add_foreign_key "notifications", "comments"
+  add_foreign_key "notifications", "users"
 end

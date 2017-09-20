@@ -4,10 +4,13 @@ class CommentsController < ApplicationController
   def create
     @comment = current_user.comments.build(comment_params)
     @topic = @comment.topic
+    @notification = @comment.notifications.build(user_id: @topic.user_id)
 
     respond_to do |format|
       if @comment.save
         format.js {render :index}
+
+        Comment.send_notice(@comment, current_user.id)
       end
     end
   end

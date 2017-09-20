@@ -1,11 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://js.pusher.com/4.0/pusher.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FunnyImageLabel</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <% if user_signed_in? %>
+    <script>
+      var pusher = new Pusher('<%= ENV["PUSHER_KEY"] %>', {
+        cluster: 'ap1',
+        encrypted: true
+      });
+
+      var channel = pusher.subscribe("user_<%= current_user.id %>_channel");
+      channel.bind('comment_created', function(data) {
+        alert(data.message);
+      });
+      channel.bind('notification_created', function(data) {
+        $('#unread_count').html(data.unread_counts);
+      });
+    </script>
+  <% end %>
 </head>
 <body>
   <header>
@@ -16,8 +33,8 @@
         </div>
         <% if user_signed_in? %>
           <div class="text-right col-md-1 col-md-offset-3 col-xs-4">
-            <%= link_to root_path, class: "header-icon" do %>
-              <i class="fa fa-bell fw"><span id="unread_count" class="badge">0</span></i>
+            <%= link_to notifications_index_path, class: "header-icon" do %>
+              <i class="fa fa-bell fw"><span id="unread_count" class="badge"><%= @notifications_count %></span></i>
             <% end %>
           </div>
           <div class="text-right col-md-1 col-xs-2">
