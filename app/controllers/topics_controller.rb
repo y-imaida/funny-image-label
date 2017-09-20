@@ -103,6 +103,17 @@ class TopicsController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+  end
+
+  def destroy
+    @topic.destroy
+    redirect_to topics_path, notice: "トピックを削除しました。"
+  end
+
   private
     def reserved_image_params
       params.require(:reserved_image).permit(:image)
