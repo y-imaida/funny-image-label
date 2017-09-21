@@ -104,9 +104,25 @@ class TopicsController < ApplicationController
   end
 
   def edit
+    @api_name = @topic.image_labels.first.api
   end
 
   def update
+    selected_labels = params[:selected_labels]
+    if selected_labels.present? && @topic.update(topic_params_for_update)
+      @topic.image_labels.each do |label|
+        if selected_labels.include?(label.label)
+          label.selected = true
+        else
+          label.selected = false
+        end
+        label.save
+      end
+
+      redirect_to topics_path, notice: "トピックを編集しました。"
+    else
+      render 'edit'
+    end
   end
 
   def destroy
@@ -121,6 +137,10 @@ class TopicsController < ApplicationController
 
     def topic_params
       params.require(:topic).permit(:image, :content)
+    end
+
+    def topic_params_for_update
+      params.require(:topic).permit(:content)
     end
 
     def set_topic

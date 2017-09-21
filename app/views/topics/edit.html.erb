@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row">
+    <div class="text-center">
+      <h2>トピックの編集</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <% if @topic.errors.any? %>
+        <div class="flash-msg alert alert-warning" role="alert">
+          <h2><%= @topic.errors.count %>件のエラーがあります。</h2>
+          <ul>
+            <% @topic.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="new-and-edit-form col-md-6 col-md-offset-3">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div>
+            <%= form_for(@topic) do |f| %>
+              <div class="content-field">
+                <%= f.label '内容' %><br>
+                <%= f.text_area :content, :rows => 10, :class => "form-control" %>
+              </div>
+              <%= f.label '写真', style: "margin: 15px auto 5px;" %>
+              <%= image_tag(@topic.image, :width => '100%') if @topic.image? %>
+              <br>
+              <%= @api_name %><br>
+              <% @topic.image_labels.each do |label| %>
+                <% if label.selected %>
+                  <%= check_box_tag "selected_labels[]", label.label, {checked: true} %><%= label.label %>:<%= label.score %><br>
+                <% else %>
+                  <%= check_box_tag "selected_labels[]", label.label %><%= label.label %>:<%= label.score %><br>
+                <% end %>
+              <% end %>
+              <%= f.submit :class => "btn btn-block btn-primary"%>
+            <% end %>
+            <br>
+            <div>
+              <%= link_to topics_path, class: "btn btn-block btn-default" do %>
+                <%= fa_icon "arrow-circle-o-left fw", text: "戻る" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
