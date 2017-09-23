@@ -42,6 +42,7 @@ class TopicsController < ApplicationController
             bytes: File.read(@topic.image.file.file)
           }
         )
+        @no_labels_detected = @detect_labels_resp.labels.empty?
 
         if @detect_moderation_labels_resp.moderation_labels.present?
           redirect_to select_image_topics_path, alert: "選択した画像のラベル検出は実行できません。（セーフサーチ機能）"
@@ -53,6 +54,7 @@ class TopicsController < ApplicationController
         vision_image = client.image(@topic.image.file.file)
         @detect_labels_resp = vision_image.labels
         @safe_search = client.safe_search(@topic.image.file.file)
+        @no_labels_detected = @detect_labels_resp.empty?
 
         if @safe_search.adult? ||
            @safe_search.spoof? ||

@@ -1,29 +1,61 @@
-<h1>Detect Image Labels</h1>
-<p><%= @api_name %></p>
-<p><%= @safe_search %></p>
+<div class="container">
+  <div class="row">
+    <h1 class="text-center">検出ラベル一覧</h1>
+    <div class="col-md-10 col-md-offset-1">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <%= form_for(@topic) do |f| %>
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <%= image_tag(@topic.image, :width => "100%") %>
+                <%= hidden_field_tag "reserved_image_id", @reserved_image.id %>
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <p>
+                  <b><%= @api_name %></b>
+                  <%= hidden_field_tag "api_name", @api_name %>
+                </p>
+                <% if @no_labels_detected %>
+                  <p>ラベルが検出されませんでした。</p>
+                <% end %>
 
-<%= form_for(@topic) do |f| %>
-  <%= image_tag(@topic.image) %><br>
-  <%= hidden_field_tag "reserved_image_id", @reserved_image.id %>
+                <% if @api_name == "Rekognition" %>
+                  <% @detect_labels_resp.labels.each do |label| %>
+                    <p><%= check_box_tag "selected_labels[]", label.name %><%= label.name %><span class="pull-right"><%= label.confidence %></span></p>
+                    <%= hidden_field_tag "detected_labels[]", label.name + "," + label.confidence.to_s %>
+                  <% end %>
+                <% end %>
 
-  <%= @api_name %><br>
-  <%= hidden_field_tag "api_name", @api_name %>
-
-  <% if @api_name == "Rekognition" %>
-    <% @detect_labels_resp.labels.each do |label| %>
-      <%= check_box_tag "selected_labels[]", label.name %><%= label.name %>:<%= label.confidence %><br>
-      <%= hidden_field_tag "detected_labels[]", label.name + "," + label.confidence.to_s %>
-    <% end %>
-  <% end %>
-
-  <% if @api_name == "Cloud Vision API" %>
-    <% @detect_labels_resp.each do |label| %>
-      <%= check_box_tag "selected_labels[]", label.description %><%= label.description %>:<%= label.score %><br>
-      <%= hidden_field_tag "detected_labels[]", label.description + "," +  label.score.to_s %>
-    <% end %>
-  <% end %>
-
-  <%= f.text_area :content, rows: 3 %><br>
-
-  <%= f.submit %>
-<% end %>
+                <% if @api_name == "Cloud Vision API" %>
+                  <% @detect_labels_resp.each do |label| %>
+                    <p><%= check_box_tag "selected_labels[]", label.description %><%= label.description %><span class="pull-right"><%= label.score %></span></p>
+                    <%= hidden_field_tag "detected_labels[]", label.description + "," +  label.score.to_s %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+            <div class="input-content">
+              <% unless @no_labels_detected %>
+                <%= f.text_area :content, placeholder: "コンテンツを入力する", class: "form-control", rows: "3" %>
+              <% else %>
+                <%= f.text_area :content, placeholder: "コンテンツを入力する", class: "form-control", rows: "3", disabled: true %>
+              <% end %>
+            </div>
+            <div class="action">
+              <% unless @no_labels_detected %>
+                <%= f.submit "投稿する", class: "btn btn-block btn-primary" %>
+              <% else %>
+                <%= f.submit "投稿する", class: "btn btn-block btn-primary", disabled: true %>
+              <% end %>
+            </div>
+          <% end %>
+          <div class="action">
+            <%= link_to select_image_topics_path, class: "btn btn-block btn-default" do %>
+              <%= fa_icon "arrow-circle-o-left fw", text: "画像選択へ戻る" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
