@@ -40,14 +40,16 @@
                 <strong><%= topic.user.name %></strong><br>
                 <%= topic.updated_at.strftime("%Y/%m/%d %H:%M:%S") %>
               </div>
-              <div class="edit-topic-links pull-right">
-                <%= link_to edit_topic_path(topic.id) do %>
-                  <% fa_icon("pencil-square-o fw") %>
-                <% end %>
-                <%= link_to topic_path(topic.id), method: :delete, data: { confirm: 'トピックを削除してもいいですか？' } do %>
-                  <% fa_icon("trash-o fw") %>
-                <% end %>
-              </div>
+              <% if topic.user.id == current_user.id %>
+                <div class="edit-topic-links pull-right">
+                  <%= link_to edit_topic_path(topic.id) do %>
+                    <% fa_icon("pencil-square-o fw") %>
+                  <% end %>
+                  <%= link_to topic_path(topic.id), method: :delete, data: { confirm: 'トピックを削除してもいいですか？' } do %>
+                    <% fa_icon("trash-o fw") %>
+                  <% end %>
+                </div>
+              <% end %>
               <div>
                 <%= simple_format(topic.content) %>
               </div>
