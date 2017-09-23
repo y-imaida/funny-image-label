@@ -4,3 +4,47 @@
 .detect-labels {
   margin-top: 10px;
 }
+
+.profile-image {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+  img {
+    width: 100%;
+  }
+}
+
+.username {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.topic-panel {
+  margin: 10px 0px 0px;
+}
+
+.edit-topic-links, .comments-link {
+  display: inline-block;
+  a {
+    text-decoration: none;
+    color: gray;
+  }
+  a:hover {
+    text-decoration: none;
+  }
+}
+
+.comments-panel {
+  background-color: #f6f7f9;
+}
+
+.comment {
+  display: inline-block;
+  margin-left: 5px;
+  margin-bottom: 20px;
+  vertical-align: top;
+  .updated-time {
+    color: gray;
+  }
+}

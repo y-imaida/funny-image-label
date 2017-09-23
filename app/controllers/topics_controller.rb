@@ -12,14 +12,16 @@ class TopicsController < ApplicationController
   end
 
   def detect_labels
-    if params[:reserved_image][:image].empty? ||
-       params[:api_name] == "noapi"
+    if params[:api_name] == "noapi"
       redirect_to select_image_topics_path, alert: "画像もしくは画像解析APIが選択されていません。"
     end
 
     # トピック登録のタイミングで画像を保存できるように別モデルへ一時保管する
     @reserved_image = ReservedImage.new(reserved_image_params)
     @reserved_image.save
+    # unless @reserved_image.save
+    #   redirect_to select_image_topics_path, alert: "画像もしくは画像解析APIが選択されていません。"
+    # end
 
     @topic = Topic.new
     @topic.image = @reserved_image.image
