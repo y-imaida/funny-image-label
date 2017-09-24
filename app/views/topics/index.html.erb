@@ -64,7 +64,7 @@
                     </p>
                     <% topic.image_labels.each do |label| %>
                       <% if label.selected %>
-                        <p><%= label.label %><span class="pull-right"><%= label.score %></span></p>
+                        <p><%= label.label %><span class="pull-right"><%= sprintf("%.3f %", label.score * 100) %></span></p>
                       <% end %>
                     <% end %>
                   </div>

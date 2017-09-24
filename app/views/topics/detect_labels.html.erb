@@ -21,14 +21,14 @@
 
                 <% if @api_name == "Rekognition" %>
                   <% @detect_labels_resp.labels.each do |label| %>
-                    <p><%= check_box_tag "selected_labels[]", label.name %><%= label.name %><span class="pull-right"><%= label.confidence %></span></p>
+                    <p><%= check_box_tag "selected_labels[]", label.name %><%= label.name %><span class="pull-right"><%= sprintf("%.3f %", label.confidence) %></span></p>
                     <%= hidden_field_tag "detected_labels[]", label.name + "," + label.confidence.to_s %>
                   <% end %>
                 <% end %>
 
                 <% if @api_name == "Cloud Vision API" %>
                   <% @detect_labels_resp.each do |label| %>
-                    <p><%= check_box_tag "selected_labels[]", label.description %><%= label.description %><span class="pull-right"><%= label.score %></span></p>
+                    <p><%= check_box_tag "selected_labels[]", label.description %><%= label.description %><span class="pull-right"><%= sprintf("%.3f %", label.score * 100) %></span></p>
                     <%= hidden_field_tag "detected_labels[]", label.description + "," +  label.score.to_s %>
                   <% end %>
                 <% end %>

@@ -91,7 +91,8 @@ class TopicsController < ApplicationController
           @image_label = @topic.image_labels.build
           @image_label.api = @api_name
           @image_label.label = dl[0]
-          @image_label.score = dl[1].to_f
+          @image_label.score = (dl[1].to_f / 100) if @api_name == "Rekognition"
+          @image_label.score = dl[1].to_f if @api_name == "Cloud Vision API"
           @image_label.selected = true if selected_labels.include?(dl[0])
 
           @image_label.save

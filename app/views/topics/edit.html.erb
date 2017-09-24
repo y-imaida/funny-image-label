@@ -29,9 +29,9 @@
                 </p>
                 <% @topic.image_labels.order(score: :desc).each do |label| %>
                   <% if label.selected %>
-                    <p><%= check_box_tag "selected_labels[]", label.label, {checked: true} %><%= label.label %><span class="pull-right"><%= sprintf("%.3f %", label.score * 100) %></span></p>
+                    <p><%= check_box_tag "selected_labels[]", label.label, {checked: true} %><%= label.label %><span class="pull-right"><%= sprintf("%.3f  %", label.score * 100) %></span></p>
                   <% else %>
-                    <p><%= check_box_tag "selected_labels[]", label.label %><%= label.label %><span class="pull-right"><%= number_to_percentage(label.score * 100) %></span></p>
+                    <p><%= check_box_tag "selected_labels[]", label.label %><%= label.label %><span class="pull-right"><%= sprintf("%.3f %", label.score * 100) %></span></p>
                   <% end %>
                 <% end %>
               </div>
