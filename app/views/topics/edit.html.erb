@@ -1,11 +1,7 @@
 <div class="container">
   <div class="row">
-    <div class="text-center">
-      <h2>トピックの編集</h2>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <h1 class="text-center">トピックの編集</h1>
+    <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
       <% if @topic.errors.any? %>
         <div class="flash-msg alert alert-warning" role="alert">
           <h2><%= @topic.errors.count %>件のエラーがあります。</h2>
@@ -19,34 +15,38 @@
     </div>
   </div>
   <div class="row">
-    <div class="new-and-edit-form col-md-6 col-md-offset-3">
+    <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
       <div class="panel panel-default">
         <div class="panel-body">
-          <div>
-            <%= form_for(@topic) do |f| %>
-              <div class="content-field">
-                <%= f.label '内容' %><br>
-                <%= f.text_area :content, :rows => 10, :class => "form-control" %>
+          <%= form_for(@topic) do |f| %>
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <%= image_tag(@topic.image, :width => '100%') %>
               </div>
-              <%= f.label '写真', style: "margin: 15px auto 5px;" %>
-              <%= image_tag(@topic.image, :width => '100%') if @topic.image? %>
-              <br>
-              <%= @api_name %><br>
-              <% @topic.image_labels.each do |label| %>
-                <% if label.selected %>
-                  <%= check_box_tag "selected_labels[]", label.label, {checked: true} %><%= label.label %>:<%= label.score %><br>
-                <% else %>
-                  <%= check_box_tag "selected_labels[]", label.label %><%= label.label %>:<%= label.score %><br>
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <p>
+                  <b><%= @api_name %></b>
+                </p>
+                <% @topic.image_labels.order(score: :desc).each do |label| %>
+                  <% if label.selected %>
+                    <p><%= check_box_tag "selected_labels[]", label.label, {checked: true} %><%= label.label %><span class="pull-right"><%= number_to_percentage(label.score * 100) %></span></p>
+                  <% else %>
+                    <p><%= check_box_tag "selected_labels[]", label.label %><%= label.label %><span class="pull-right"><%= number_to_percentage(label.score * 100) %></span></p>
+                  <% end %>
                 <% end %>
-              <% end %>
-              <%= f.submit :class => "btn btn-block btn-primary"%>
-            <% end %>
-            <br>
-            <div>
-              <%= link_to topics_path, class: "btn btn-block btn-default" do %>
-                <%= fa_icon "arrow-circle-o-left fw", text: "戻る" %>
-              <% end %>
+              </div>
             </div>
+            <div class="input-content">
+              <%= f.text_area :content, placeholder: "コンテンツを入力する", class: "form-control", rows: "3" %>
+            </div>
+            <div class="action">
+              <%= f.submit :class => "btn btn-block btn-primary"%>
+            </div>
+          <% end %>
+          <div class="action">
+            <%= link_to topics_path, class: "btn btn-block btn-default" do %>
+              <%= fa_icon "arrow-circle-o-left fw", text: "戻る" %>
+            <% end %>
           </div>
         </div>
       </div>
