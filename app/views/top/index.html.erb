@@ -20,9 +20,11 @@
   </div>
   <div class="row">
     <div class="about col-md-5 col-md-offset-1 hidden-sm hidden-xs">
-      <p>FunnyImageLabelは、Amazon Web ServicesやGoogle Cloud Platformが提供している画像解析APIを利用して画像のシーン検出（ラベル検出）を行うことができます。</p>
-      <img src="<%= asset_path 'amazon-aws-logo.jpg' %>">
-      <img src="<%= asset_path 'gcp_image.jpg' %>">
+      <p>FunnyImageLabelでは、画像解析APIを利用して画像のラベル検出を行うことができます。<br>
+        （画像解析APIはAmazon Web ServicesのRekognitionもしくはGoogle Cloud PlatformのCloud Vision APIを利用することができます。）</p>
+      <p>面白いラベルが検出される画像を見つけて投稿してみましょう。</p>
+      <p class="text-center"><img src="<%= asset_path 'Rekognition.png' %>"></p>
+      <p class="text-center"><img src="<%= asset_path 'Cloud Vision API.png' %>"></p>
     </div>
     <div class="col-md-5">
       <div class="panel panel-default registration-form">
