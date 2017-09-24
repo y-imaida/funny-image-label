@@ -12,6 +12,16 @@
           </ul>
         </div>
       <% end %>
+      <% if notice.present? %>
+        <div class="flash-msg alert alert-info" role="alert">
+          <%= notice %>
+        </div>
+      <% end %>
+      <% if alert.present? %>
+        <div class="flash-msg alert alert-warning" role="alert">
+          <%= alert %>
+        </div>
+      <% end %>
     </div>
   </div>
   <div class="row">

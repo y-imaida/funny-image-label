@@ -115,19 +115,24 @@ class TopicsController < ApplicationController
 
   def update
     selected_labels = params[:selected_labels]
-    if selected_labels.present? && @topic.update(topic_params_for_update)
-      @topic.image_labels.each do |label|
-        if selected_labels.include?(label.label)
-          label.selected = true
-        else
-          label.selected = false
-        end
-        label.save
-      end
-
-      redirect_to topics_path, notice: "トピックを編集しました。"
-    else
+    unless selected_labels.present?
+      flash.now[:alert] = "ラベルが選択されていません。"
       render 'edit'
+    else
+      if @topic.update(topic_params_for_update)
+        @topic.image_labels.each do |label|
+          if selected_labels.include?(label.label)
+            label.selected = true
+          else
+            label.selected = false
+          end
+          label.save
+        end
+
+        redirect_to topics_path, notice: "トピックを編集しました。"
+      else
+        render 'edit'
+      end
     end
   end
 
