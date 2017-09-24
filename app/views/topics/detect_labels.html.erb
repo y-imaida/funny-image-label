@@ -7,7 +7,7 @@
           <%= form_for(@topic) do |f| %>
             <div class="row">
               <div class="col-md-6 col-sm-6 col-xs-6">
-                <%= image_tag(@topic.image, :width => "100%") %>
+                <%= image_tag(@reserved_image.image, :width => "100%") %>
                 <%= hidden_field_tag "reserved_image_id", @reserved_image.id %>
               </div>
               <div class="col-md-6 col-sm-6 col-xs-6">
