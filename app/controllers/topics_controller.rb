@@ -69,6 +69,7 @@ class TopicsController < ApplicationController
   end
 
   def show
+    @api_name = @topic.image_labels.first.api
     @comment = @topic.comments.build
     @comments = @topic.comments
 

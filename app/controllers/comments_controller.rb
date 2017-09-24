@@ -16,6 +16,7 @@ class CommentsController < ApplicationController
   end
 
   def edit
+    @api_name = @topic.image_labels.first.api
   end
 
   def update

@@ -1,54 +1,60 @@
-<div>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-        <% if notice.present? %>
-          <div class="flash-msg alert alert-info" role="alert">
-            <%= notice %>
-          </div>
-        <% end %>
-        <% if alert.present? %>
-          <div class="flash-msg alert alert-warning" role="alert">
-            <%= alert %>
-          </div>
-        <% end %>
-      </div>
+<div class="container">
+  <div class="row">
+    <h1 class="text-center">コメント一覧</h1>
+    <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+      <% if notice.present? %>
+        <div class="flash-msg alert alert-info" role="alert">
+          <%= notice %>
+        </div>
+      <% end %>
+      <% if alert.present? %>
+        <div class="flash-msg alert alert-warning" role="alert">
+          <%= alert %>
+        </div>
+      <% end %>
     </div>
-    <div class="row">
-      <div class="text-center">
-        <h2>コメント一覧</h2>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
-        <div class="topic-panel panel panel-default">
-          <div class="panel-body">
-            <div class="profile-image"><%= profile_img(@topic.user) %></div>
-            <div class="username">
-              <strong><%= @topic.user.name %></strong><br>
-              <%= @topic.updated_at.strftime("%Y/%m/%d %H:%M:%S") %>
+  </div>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+      <div class="topic-panel panel panel-default">
+        <div class="panel-body">
+          <div class="profile-image"><%= profile_img(@topic.user) %></div>
+          <div class="username">
+            <strong><%= @topic.user.name %></strong><br>
+            <%= @topic.updated_at.strftime("%Y/%m/%d %H:%M:%S") %>
+          </div>
+          <div>
+            <%= simple_format(@topic.content) %>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+              <%= image_tag(@topic.image, :width => "100%") %>
             </div>
-            <div>
-              <%= simple_format(@topic.content) %>
-            </div>
-            <div>
-              <%= image_tag(@topic.image, :width => "100%")  if @topic.image? %>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+              <p>
+                <b><%= @api_name %></b>
+              </p>
+              <% @topic.image_labels.each do |label| %>
+                <% if label.selected %>
+                  <p><%= label.label %><span class="pull-right"><%= sprintf("%.3f %", label.score * 100) %></span></p>
+                <% end %>
+              <% end %>
             </div>
           </div>
         </div>
-        <div class="comments-panel panel panel-default">
-          <div class="panel-body">
-            <div id="comments_area">
-              <%= render partial: 'comments/index', locals: { comments: @comments, topic: @topic } %>
-            </div>
-            <hr>
-            <%= render partial: 'comments/form', locals: { comment: @comment, topic: @topic } %>
-            <br>
-            <div>
-              <%= link_to :back, class: "btn btn-block btn-default" do %>
-                <%= fa_icon "arrow-circle-o-left fw", text: "戻る" %>
-              <% end %>
-            </div>
+      </div>
+      <div class="comments-panel panel panel-default">
+        <div class="panel-body">
+          <div id="comments_area">
+            <%= render partial: 'comments/index', locals: { comments: @comments, topic: @topic } %>
+          </div>
+          <hr>
+          <%= render partial: 'comments/form', locals: { comment: @comment, topic: @topic } %>
+          <br>
+          <div>
+            <%= link_to :back, class: "btn btn-block btn-default" do %>
+              <%= fa_icon "arrow-circle-o-left fw", text: "戻る" %>
+            <% end %>
           </div>
         </div>
       </div>
