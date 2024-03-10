@@ -45,7 +45,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'better_errors'
 
-  gem 'capistrano', '3.6.0'
+  gem 'capistrano', '3.18.1'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano-rbenv'
